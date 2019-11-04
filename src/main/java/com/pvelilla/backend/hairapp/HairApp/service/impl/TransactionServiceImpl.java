@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.pvelilla.backend.hairapp.HairApp.config.dozer.DozerMappingBuilder;
 import com.pvelilla.backend.hairapp.HairApp.config.specification.SpecificationBuilder;
-import com.pvelilla.backend.hairapp.HairApp.domain.TransactionDTO;
-import com.pvelilla.backend.hairapp.HairApp.entities.Transaction;
+import com.pvelilla.backend.hairapp.HairApp.domain.TransactionEDTO;
+import com.pvelilla.backend.hairapp.HairApp.entities.TransactionE;
 import com.pvelilla.backend.hairapp.HairApp.exceptions.RecordNotFoundException;
 import com.pvelilla.backend.hairapp.HairApp.repository.TransactionRepository;
 import com.pvelilla.backend.hairapp.HairApp.service.TransactionService;
@@ -29,44 +29,44 @@ public class TransactionServiceImpl implements TransactionService{
 	
 	
 	@Override
-	public List<TransactionDTO> findAll(Optional<Long> typeTransactionParam) {
+	public List<TransactionEDTO> findAll(Optional<Long> typeTransactionParam) {
 		Map<String, Object> paramSpec = new HashMap<>();
 		typeTransactionParam.ifPresent(mapper -> paramSpec.put("typeTransactionParam", typeTransactionParam.get()));
 		return transactionRepository
-				.findAll(new SpecificationBuilder<Transaction>(paramSpec).conjunctionEquals("[typeTransaction]", "typeTransactionParam").build())
-				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, TransactionDTO.class))
+				.findAll(new SpecificationBuilder<TransactionE>(paramSpec).conjunctionEquals("[typeTransaction]", "typeTransactionParam").build())
+				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, TransactionEDTO.class))
 				.collect(Collectors.toList());
 	}
 	
 	@Override
-	public TransactionDTO findById(Long transactionId) {
+	public TransactionEDTO findById(Long transactionId) {
 		return transactionRepository.findById(transactionId)
-				.map(mapper -> new DozerMappingBuilder().map(mapper, TransactionDTO.class))
+				.map(mapper -> new DozerMappingBuilder().map(mapper, TransactionEDTO.class))
 				.orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, transactionId));
 	}
 
 	@Override
-	public Long save(TransactionDTO transactionDTO) {
-		Transaction transaction = new DozerMappingBuilder().map(transactionDTO, Transaction.class);
+	public Long save(TransactionEDTO transactionDTO) {
+		TransactionE transaction = new DozerMappingBuilder().map(transactionDTO, TransactionE.class);
 		transactionRepository.save(transaction);
 		return transaction.getTransactionId();
 	}
 
 	@Override
-	public TransactionDTO update(Long transactionId, TransactionDTO transactionDTO) {
+	public TransactionEDTO update(Long transactionId, TransactionEDTO transactionDTO) {
 		return transactionRepository.findById(transactionId).map(mapper -> {
-			Transaction transaction = new DozerMappingBuilder().map(transactionDTO, Transaction.class);
+			TransactionE transaction = new DozerMappingBuilder().map(transactionDTO, TransactionE.class);
 			transaction.setTransactionId(transactionId);
 			transactionRepository.save(transaction);
-			return new DozerMappingBuilder().map(transaction, TransactionDTO.class);
+			return new DozerMappingBuilder().map(transaction, TransactionEDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, transactionId));
 	}
 
 	@Override
-	public TransactionDTO deleteById(Long transactionId) {
+	public TransactionEDTO deleteById(Long transactionId) {
 		return transactionRepository.findById(transactionId).map(mapper -> {
 			transactionRepository.delete(mapper);
-			return new DozerMappingBuilder().map(mapper, TransactionDTO.class);
+			return new DozerMappingBuilder().map(mapper, TransactionEDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, transactionId));
 	}
 	

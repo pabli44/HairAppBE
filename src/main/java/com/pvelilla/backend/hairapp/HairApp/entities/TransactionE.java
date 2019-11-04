@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Transaction {
+public class TransactionE {
 
 	@Column(name = "id")
 	@Id

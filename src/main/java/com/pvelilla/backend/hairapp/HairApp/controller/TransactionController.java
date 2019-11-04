@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pvelilla.backend.hairapp.HairApp.domain.ResponseMapDTO;
-import com.pvelilla.backend.hairapp.HairApp.domain.TransactionDTO;
+import com.pvelilla.backend.hairapp.HairApp.domain.TransactionEDTO;
 import com.pvelilla.backend.hairapp.HairApp.domain.UserDTO;
 import com.pvelilla.backend.hairapp.HairApp.service.TransactionService;
 import com.pvelilla.backend.hairapp.HairApp.service.UserService;
@@ -36,31 +36,31 @@ public class TransactionController {
 	
 	@CrossOrigin
 	@PostMapping
-	public ResponseMapDTO save(@RequestBody @Valid TransactionDTO transactionDTO) {
+	public ResponseMapDTO save(@RequestBody @Valid TransactionEDTO transactionDTO) {
 		return new ResponseMapDTO("recordId", transactionService.save(transactionDTO));
 	}
 	
 	@CrossOrigin
 	@DeleteMapping(value = "/{transactionId}")
-	public TransactionDTO deleteById(@PathVariable Long transactionId) {
+	public TransactionEDTO deleteById(@PathVariable Long transactionId) {
 		return transactionService.deleteById(transactionId);
 	}
 
 	@CrossOrigin
 	@PutMapping(value = "/{transactionId}")
-	public TransactionDTO updateById(@PathVariable Long transactionId, @RequestBody @Valid TransactionDTO transactionDTO) {
+	public TransactionEDTO updateById(@PathVariable Long transactionId, @RequestBody @Valid TransactionEDTO transactionDTO) {
 		return transactionService.update(transactionId, transactionDTO);
 	}
 
 	@CrossOrigin
 	@GetMapping(value = "/{transactionId}")
-	public TransactionDTO getTransactionById(@PathVariable Long transactionId) {
+	public TransactionEDTO getTransactionById(@PathVariable Long transactionId) {
 		return transactionService.findById(transactionId);
 	}
 	
 	@CrossOrigin
 	@GetMapping
-	public List<TransactionDTO> findALlRecords(@RequestParam(name = "typeTransactionParam") Optional<Long> typeTransactionParam) {
+	public List<TransactionEDTO> findALlRecords(@RequestParam(name = "typeTransactionParam") Optional<Long> typeTransactionParam) {
 		return transactionService.findAll(typeTransactionParam);
 	}
 	

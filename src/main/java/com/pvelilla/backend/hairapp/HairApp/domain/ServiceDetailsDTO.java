@@ -41,6 +41,6 @@ public class ServiceDetailsDTO {
 	private UserDTO professionalUser;
 	
 	@NotNull
-	private TransactionDTO transaction;
+	private TransactionEDTO transaction;
 	
 }

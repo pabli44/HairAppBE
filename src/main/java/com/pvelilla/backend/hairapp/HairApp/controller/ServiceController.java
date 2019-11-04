@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pvelilla.backend.hairapp.HairApp.domain.ProfileDTO;
 import com.pvelilla.backend.hairapp.HairApp.domain.ResponseMapDTO;
-import com.pvelilla.backend.hairapp.HairApp.domain.ServiceDTO;
+import com.pvelilla.backend.hairapp.HairApp.domain.ServiceEDTO;
 import com.pvelilla.backend.hairapp.HairApp.service.ProfileService;
 import com.pvelilla.backend.hairapp.HairApp.service.ServiceService;
 
@@ -36,31 +36,31 @@ public class ServiceController {
 	
 	@CrossOrigin
 	@PostMapping
-	public ResponseMapDTO save(@RequestBody @Valid ServiceDTO serviceDTO) {
+	public ResponseMapDTO save(@RequestBody @Valid ServiceEDTO serviceDTO) {
 		return new ResponseMapDTO("recordId", serviceService.save(serviceDTO));
 	}
 	
 	@CrossOrigin
 	@DeleteMapping(value = "/{serviceId}")
-	public ServiceDTO deleteById(@PathVariable Long profileId) {
+	public ServiceEDTO deleteById(@PathVariable Long profileId) {
 		return serviceService.deleteById(profileId);
 	}
 
 	@CrossOrigin
 	@PutMapping(value = "/{serviceId}")
-	public ServiceDTO updateById(@PathVariable Long serviceId, @RequestBody @Valid ServiceDTO serviceDTO) {
+	public ServiceEDTO updateById(@PathVariable Long serviceId, @RequestBody @Valid ServiceEDTO serviceDTO) {
 		return serviceService.update(serviceId, serviceDTO);
 	}
 
 	@CrossOrigin
 	@GetMapping(value = "/{serviceId}")
-	public ServiceDTO getServiceById(@PathVariable Long serviceId) {
+	public ServiceEDTO getServiceById(@PathVariable Long serviceId) {
 		return serviceService.findById(serviceId);
 	}
 	
 	@CrossOrigin
 	@GetMapping
-	public List<ServiceDTO> findALlRecords(@RequestParam(name = "serviceNameParam") Optional<String> serviceNameParam) {
+	public List<ServiceEDTO> findALlRecords(@RequestParam(name = "serviceNameParam") Optional<String> serviceNameParam) {
 		return serviceService.findAll(serviceNameParam);
 	}
 

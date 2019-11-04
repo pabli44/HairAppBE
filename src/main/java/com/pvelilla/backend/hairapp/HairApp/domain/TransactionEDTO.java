@@ -13,7 +13,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class TransactionDTO {
+public class TransactionEDTO {
 	
 	private Long transactionId;
 	
