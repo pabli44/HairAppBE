@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import com.pvelilla.backend.hairapp.HairApp.config.dozer.DozerMappingBuilder;
 import com.pvelilla.backend.hairapp.HairApp.config.specification.SpecificationBuilder;
 import com.pvelilla.backend.hairapp.HairApp.domain.ServiceDetailsDTO;
@@ -14,6 +16,7 @@ import com.pvelilla.backend.hairapp.HairApp.exceptions.RecordNotFoundException;
 import com.pvelilla.backend.hairapp.HairApp.repository.ServiceDetailsRepository;
 import com.pvelilla.backend.hairapp.HairApp.service.ServiceDetailsService;
 
+@Service
 public class ServiceDetailsServiceImpl implements ServiceDetailsService{
 
 	private ServiceDetailsRepository serviceDetailsRepository;

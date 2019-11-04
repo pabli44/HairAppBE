@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pvelilla.backend.hairapp.HairApp.domain.ResponseMapDTO;
 import com.pvelilla.backend.hairapp.HairApp.domain.ServiceDetailsDTO;
-import com.pvelilla.backend.hairapp.HairApp.domain.UserDTO;
 import com.pvelilla.backend.hairapp.HairApp.service.ServiceDetailsService;
-import com.pvelilla.backend.hairapp.HairApp.service.UserService;
 
 @RestController
 @RequestMapping("/apiv1/servicedetails")

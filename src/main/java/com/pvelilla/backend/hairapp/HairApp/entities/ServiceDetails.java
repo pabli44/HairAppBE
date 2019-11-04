@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.transaction.Transaction;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,6 +51,6 @@ public class ServiceDetails {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "transaccion")
-	private Transaction transaction;
+	private TransactionE transaction;
 	
 }

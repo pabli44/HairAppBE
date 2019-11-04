@@ -13,7 +13,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ServiceDTO {
+public class ServiceEDTO {
 	
 	private Long serviceId;
 	

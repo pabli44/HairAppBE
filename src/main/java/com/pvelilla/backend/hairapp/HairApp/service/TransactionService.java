@@ -3,18 +3,18 @@ package com.pvelilla.backend.hairapp.HairApp.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.pvelilla.backend.hairapp.HairApp.domain.TransactionDTO;
+import com.pvelilla.backend.hairapp.HairApp.domain.TransactionEDTO;
 
 public interface TransactionService {
 
-	List<TransactionDTO> findAll(Optional<Long> typeTransactionParam);
+	List<TransactionEDTO> findAll(Optional<Long> typeTransactionParam);
 	
-	TransactionDTO findById(Long transactionId);
+	TransactionEDTO findById(Long transactionId);
 	
-	Long save(TransactionDTO transactionDTO);
+	Long save(TransactionEDTO transactionDTO);
 
-	TransactionDTO update(Long transactionId, TransactionDTO transactionDTO);
+	TransactionEDTO update(Long transactionId, TransactionEDTO transactionDTO);
 
-	TransactionDTO deleteById(Long transactionId);
+	TransactionEDTO deleteById(Long transactionId);
 	
 }

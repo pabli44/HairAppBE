@@ -3,18 +3,18 @@ package com.pvelilla.backend.hairapp.HairApp.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.pvelilla.backend.hairapp.HairApp.domain.ServiceDTO;
+import com.pvelilla.backend.hairapp.HairApp.domain.ServiceEDTO;
 
 public interface ServiceService {
 	
-	List<ServiceDTO> findAll(Optional<String> serviceNameParam);
+	List<ServiceEDTO> findAll(Optional<String> serviceNameParam);
 	
-	ServiceDTO findById(Long serviceId);
+	ServiceEDTO findById(Long serviceId);
 	
-	Long save(ServiceDTO serviceDTO);
+	Long save(ServiceEDTO serviceDTO);
 
-	ServiceDTO update(Long serviceId, ServiceDTO serviceDTO);
+	ServiceEDTO update(Long serviceId, ServiceEDTO serviceDTO);
 
-	ServiceDTO deleteById(Long serviceId);
+	ServiceEDTO deleteById(Long serviceId);
 
 }
