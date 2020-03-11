@@ -46,10 +46,6 @@ public class ServiceDetails {
 	private String hour;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "profesional")
-	private User professionalUser;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "transaccion")
 	private TransactionE transaction;
 	

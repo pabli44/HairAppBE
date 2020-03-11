@@ -38,9 +38,6 @@ public class ServiceDetailsDTO {
 	private String hour;
 	
 	@NotNull
-	private UserDTO professionalUser;
-	
-	@NotNull
 	private TransactionEDTO transaction;
 	
 }
