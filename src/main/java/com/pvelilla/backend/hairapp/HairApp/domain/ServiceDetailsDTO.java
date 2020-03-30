@@ -5,8 +5,6 @@ import java.util.Date;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.pvelilla.backend.hairapp.HairApp.entities.ServiceE;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +21,7 @@ public class ServiceDetailsDTO {
 	private Long serviceDetailsId;
 
 	@NotNull
-	private ServiceE service;
+	private ServiceEDTO service;
 	
 	@NotNull
 	private UserDTO user;
