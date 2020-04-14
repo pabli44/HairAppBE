@@ -39,6 +39,9 @@ public class User {
 	@Column(name = "nombre_usuario")
 	private String userName;
 	
+	@Column(name = "password")
+	private String password;
+	
 	@Column(name = "correo")
 	private String email;
 	
