@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService{
 		Map<String, Object> paramSpec = new HashMap<>();
 		userNameParam.ifPresent(mapper -> paramSpec.put("userNameParam", userNameParam.get()));
 		return userRepository
-				.findAll(new SpecificationBuilder<User>(paramSpec).conjunctionLike("[userName]", "userNameParam").build())
+				.findAll(new SpecificationBuilder<User>(paramSpec).conjunctionEquals("[userName]", "userNameParam").build())
 				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, UserDTO.class))
 				.collect(Collectors.toList());
 	}
