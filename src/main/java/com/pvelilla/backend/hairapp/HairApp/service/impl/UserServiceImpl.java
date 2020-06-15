@@ -29,11 +29,11 @@ public class UserServiceImpl implements UserService{
 	
 	
 	@Override
-	public List<UserDTO> findAll(Optional<String> userNameParam) {
+	public List<UserDTO> findAll(Optional<String> emailParam) {
 		Map<String, Object> paramSpec = new HashMap<>();
-		userNameParam.ifPresent(mapper -> paramSpec.put("userNameParam", userNameParam.get()));
+		emailParam.ifPresent(mapper -> paramSpec.put("emailParam", emailParam.get()));
 		return userRepository
-				.findAll(new SpecificationBuilder<User>(paramSpec).conjunctionEquals("[userName]", "userNameParam").build())
+				.findAll(new SpecificationBuilder<User>(paramSpec).conjunctionLike("[email]", "emailParam").build())
 				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, UserDTO.class))
 				.collect(Collectors.toList());
 	}
