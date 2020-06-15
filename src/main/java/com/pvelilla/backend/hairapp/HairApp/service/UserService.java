@@ -7,7 +7,7 @@ import com.pvelilla.backend.hairapp.HairApp.domain.UserDTO;
 
 public interface UserService {
 	
-	List<UserDTO> findAll(Optional<String> nameParam);
+	List<UserDTO> findAll(Optional<String> emailParam);
 	
 	UserDTO findById(Long userId);
 	

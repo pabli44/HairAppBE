@@ -58,8 +58,8 @@ public class UserController {
 	
 	@CrossOrigin
 	@GetMapping
-	public List<UserDTO> findALlRecords(@RequestParam(name = "userNameParam") Optional<String> userNameParam) {
-		return userService.findAll(userNameParam);
+	public List<UserDTO> findALlRecords(@RequestParam(name = "emailParam") Optional<String> emailParam) {
+		return userService.findAll(emailParam);
 	}
 
 	
