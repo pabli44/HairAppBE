@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import com.pvelilla.backend.hairapp.HairApp.config.dozer.DozerMappingBuilder;
 import com.pvelilla.backend.hairapp.HairApp.config.specification.SpecificationBuilder;
 import com.pvelilla.backend.hairapp.HairApp.domain.TypeServiceDTO;
@@ -14,6 +16,7 @@ import com.pvelilla.backend.hairapp.HairApp.exceptions.RecordNotFoundException;
 import com.pvelilla.backend.hairapp.HairApp.repository.TypeServiceRepository;
 import com.pvelilla.backend.hairapp.HairApp.service.TypeServiceService;
 
+@Service
 public class TypeServiceServiceImpl implements TypeServiceService{
 
 	private TypeServiceRepository typeServiceRepository;
@@ -30,7 +33,7 @@ public class TypeServiceServiceImpl implements TypeServiceService{
 		Map<String, Object> paramSpec = new HashMap<>();
 		priceParam.ifPresent(mapper -> paramSpec.put("priceParam", priceParam.get()));
 		return typeServiceRepository
-				.findAll(new SpecificationBuilder<TypeService>(paramSpec).conjunctionLike("[price]", "priceParam").build())
+				.findAll(new SpecificationBuilder<TypeService>(paramSpec).conjunctionEquals("[price]", "priceParam").build())
 				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, TypeServiceDTO.class))
 				.collect(Collectors.toList());
 	}

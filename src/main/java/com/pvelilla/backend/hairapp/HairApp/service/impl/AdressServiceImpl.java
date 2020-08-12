@@ -33,7 +33,7 @@ public class AdressServiceImpl implements AdressService{
 		Map<String, Object> paramSpec = new HashMap<>();
 		userParam.ifPresent(mapper -> paramSpec.put("userParam", userParam.get()));
 		return adressRepository
-				.findAll(new SpecificationBuilder<Adress>(paramSpec).conjunctionLike("[user]", "userParam").build())
+				.findAll(new SpecificationBuilder<Adress>(paramSpec).conjunctionEquals("[user]", "userParam").build())
 				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, AdressDTO.class))
 				.collect(Collectors.toList());
 	}

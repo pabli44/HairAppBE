@@ -23,11 +23,14 @@ public class Adress {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long adressId;
 	
+	@Column(name = "descripcion")
+	private String description;
+	
 	@Column(name = "principal")
 	private String principal;
 	
 	@Column(name = "usuario")
-	private User user;
+	private Long user;
 	
 	@Column(name = "ciudad")
 	private String city;

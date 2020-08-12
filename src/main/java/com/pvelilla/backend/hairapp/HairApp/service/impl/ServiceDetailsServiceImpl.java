@@ -33,7 +33,7 @@ public class ServiceDetailsServiceImpl implements ServiceDetailsService{
 		Map<String, Object> paramSpec = new HashMap<>();
 		serviceParam.ifPresent(mapper -> paramSpec.put("serviceParam", serviceParam.get()));
 		return serviceDetailsRepository
-				.findAll(new SpecificationBuilder<ServiceDetails>(paramSpec).conjunctionLike("[service][ServiceId]", "serviceParam").build())
+				.findAll(new SpecificationBuilder<ServiceDetails>(paramSpec).conjunctionEquals("[service][serviceId]", "serviceParam").build())
 				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, ServiceDetailsDTO.class))
 				.collect(Collectors.toList());
 	}

@@ -1,8 +1,7 @@
 package com.pvelilla.backend.hairapp.HairApp.domain;
 
 import javax.validation.constraints.NotBlank;
-
-import com.pvelilla.backend.hairapp.HairApp.entities.User;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,8 +23,8 @@ public class AdressDTO {
 	@NotBlank
 	private String principal;
 	
-	@NotBlank
-	private User user;
+	@NotNull
+	private Long user;
 	
 	@NotBlank
 	private String city;

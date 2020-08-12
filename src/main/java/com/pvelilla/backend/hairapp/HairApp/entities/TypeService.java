@@ -24,10 +24,10 @@ public class TypeService {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long typeServiceId;
 	
-	@NotBlank
-	private String service_name;
+	@Column(name = "nombre_servicio")
+	private String serviceName;
 	
-	@NotBlank
+	@Column(name = "precio")
 	private Long price;
 
 }

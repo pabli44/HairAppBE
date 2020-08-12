@@ -1,5 +1,8 @@
 package com.pvelilla.backend.hairapp.HairApp.domain;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +18,10 @@ public class TypeServiceDTO {
 	
 	private Long typeServiceId;
 	
-	private String service_name;
+	@NotBlank
+	private String serviceName;
 	
+	@NotNull
 	private Long price;
 
 }
