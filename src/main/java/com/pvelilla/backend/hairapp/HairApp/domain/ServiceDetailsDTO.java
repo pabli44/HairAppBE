@@ -38,4 +38,7 @@ public class ServiceDetailsDTO {
 	@NotNull
 	private TransactionEDTO transaction;
 	
+	@NotNull
+	private Long quantity;
+	
 }

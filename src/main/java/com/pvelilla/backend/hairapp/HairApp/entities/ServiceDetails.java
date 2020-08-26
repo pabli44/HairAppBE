@@ -49,4 +49,7 @@ public class ServiceDetails {
 	@JoinColumn(name = "transaccion")
 	private TransactionE transaction;
 	
+	@Column(name = "cantidad")
+	private Long quantity;
+	
 }
