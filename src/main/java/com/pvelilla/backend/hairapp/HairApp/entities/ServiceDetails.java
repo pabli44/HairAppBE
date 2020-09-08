@@ -33,8 +33,8 @@ public class ServiceDetails {
 	private ServiceE service;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "usuario")
-	private User user;
+	@JoinColumn(name = "cliente")
+	private User client;
 	
 	@Column(name = "valor")
 	private Double value;
@@ -51,5 +51,9 @@ public class ServiceDetails {
 	
 	@Column(name = "cantidad")
 	private Long quantity;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "profesional")
+	private User professional;
 	
 }

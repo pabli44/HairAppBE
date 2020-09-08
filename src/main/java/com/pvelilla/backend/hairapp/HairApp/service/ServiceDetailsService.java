@@ -9,6 +9,10 @@ public interface ServiceDetailsService {
 
 	List<ServiceDetailsDTO> findAll(Optional<Long> serviceParam);
 	
+	List<ServiceDetailsDTO> findAllByClient(Optional<Long> clientParam);
+	
+	List<ServiceDetailsDTO> findAllByProfessional(Optional<Long> professionalParam);
+	
 	ServiceDetailsDTO findById(Long serviceDetailsId);
 	
 	Long save(ServiceDetailsDTO serviceDetailsDTO);

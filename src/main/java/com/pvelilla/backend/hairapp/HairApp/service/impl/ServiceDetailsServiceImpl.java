@@ -33,9 +33,35 @@ public class ServiceDetailsServiceImpl implements ServiceDetailsService{
 		Map<String, Object> paramSpec = new HashMap<>();
 		serviceParam.ifPresent(mapper -> paramSpec.put("serviceParam", serviceParam.get()));
 		return serviceDetailsRepository
-				.findAll(new SpecificationBuilder<ServiceDetails>(paramSpec).conjunctionEquals("[service][serviceId]", "serviceParam").build())
+				.findAll(new SpecificationBuilder<ServiceDetails>(paramSpec).conjunctionEquals("[service][serviceId]", "serviceParam")
+				.build())
 				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, ServiceDetailsDTO.class))
 				.collect(Collectors.toList());
+		
+	}
+	
+	@Override
+	public List<ServiceDetailsDTO> findAllByClient(Optional<Long> clientParam) {
+		Map<String, Object> paramSpec = new HashMap<>();
+		clientParam.ifPresent(mapper -> paramSpec.put("clientParam", clientParam.get()));
+		return serviceDetailsRepository
+				.findAll(new SpecificationBuilder<ServiceDetails>(paramSpec).conjunctionEquals("[client][userId]", "clientParam")
+				.build())
+				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, ServiceDetailsDTO.class))
+				.collect(Collectors.toList());
+		
+	}
+	
+	@Override
+	public List<ServiceDetailsDTO> findAllByProfessional(Optional<Long> professionalParam) {
+		Map<String, Object> paramSpec = new HashMap<>();
+		professionalParam.ifPresent(mapper -> paramSpec.put("professionalParam", professionalParam.get()));
+		return serviceDetailsRepository
+				.findAll(new SpecificationBuilder<ServiceDetails>(paramSpec).conjunctionEquals("[professional][userId]", "professionalParam")
+				.build())
+				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, ServiceDetailsDTO.class))
+				.collect(Collectors.toList());
+		
 	}
 	
 	@Override
