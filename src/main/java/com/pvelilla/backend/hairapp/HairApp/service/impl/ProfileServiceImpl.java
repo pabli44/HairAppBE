@@ -33,7 +33,7 @@ public class ProfileServiceImpl implements ProfileService{
 		Map<String, Object> paramSpec = new HashMap<>();
 		profileNameParam.ifPresent(mapper -> paramSpec.put("profileNameParam", profileNameParam.get()));
 		return profileRepository
-				.findAll(new SpecificationBuilder<Profile>(paramSpec).conjunctionLike("[profileName]", "profileNameParam").build())
+				.findAll(new SpecificationBuilder<Profile>(paramSpec).conjunctionEquals("[profileName]", "profileNameParam").build())
 				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, ProfileDTO.class))
 				.collect(Collectors.toList());
 	}

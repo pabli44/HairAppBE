@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pvelilla.backend.hairapp.HairApp.domain.ProfileDTO;
 import com.pvelilla.backend.hairapp.HairApp.domain.ResponseMapDTO;
 import com.pvelilla.backend.hairapp.HairApp.domain.ServiceEDTO;
+import com.pvelilla.backend.hairapp.HairApp.entities.TypeService;
 import com.pvelilla.backend.hairapp.HairApp.service.ProfileService;
 import com.pvelilla.backend.hairapp.HairApp.service.ServiceService;
 
@@ -60,8 +61,8 @@ public class ServiceController {
 	
 	@CrossOrigin
 	@GetMapping
-	public List<ServiceEDTO> findALlRecords(@RequestParam(name = "serviceNameParam") Optional<String> serviceNameParam) {
-		return serviceService.findAll(serviceNameParam);
+	public List<ServiceEDTO> findALlRecords(@RequestParam(name = "typeServiceParam") Optional<Long> typeServiceParam) {
+		return serviceService.findAll(typeServiceParam);
 	}
 
 }

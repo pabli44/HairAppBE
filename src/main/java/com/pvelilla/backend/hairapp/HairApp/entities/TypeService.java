@@ -2,35 +2,32 @@ package com.pvelilla.backend.hairapp.HairApp.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "servicios")
+@Table(name = "tipo_servicio")
 @Setter
 @Getter
 @NoArgsConstructor
-public class ServiceE {
-
+public class TypeService {
+	
 	@Column(name = "id")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long serviceId;
+	private Long typeServiceId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "tipo_servicio")
-	private TypeService typeService;
+	@Column(name = "nombre_servicio")
+	private String serviceName;
 	
-	@Column(name = "estado")
-	private String state;
-	
+	@Column(name = "precio")
+	private Long price;
+
 }

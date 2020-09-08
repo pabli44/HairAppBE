@@ -1,6 +1,7 @@
 package com.pvelilla.backend.hairapp.HairApp.domain;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,8 +18,8 @@ public class ServiceEDTO {
 	
 	private Long serviceId;
 	
-	@NotBlank
-	private String serviceName;
+	@NotNull
+	private TypeServiceDTO typeService;
 	
 	@NotBlank
 	private String state;

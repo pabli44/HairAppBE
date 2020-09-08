@@ -1,7 +1,5 @@
 package com.pvelilla.backend.hairapp.HairApp.domain;
 
-import java.util.Date;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -16,32 +14,20 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ServiceDetailsDTO {
-	
-	private Long serviceDetailsId;
-
-	@NotNull
-	private ServiceEDTO service;
-	
-	@NotNull
-	private UserDTO client;
-	
-	@NotNull
-	private Double value;
-	
-	@NotNull
-	private Date date;
+public class AdressDTO {
+	private Long adressId;
 	
 	@NotBlank
-	private String hour;
+	private String description;
+	
+	@NotBlank
+	private String principal;
 	
 	@NotNull
-	private TransactionEDTO transaction;
+	private Long user;
 	
-	@NotNull
-	private Long quantity;
+	@NotBlank
+	private String city;
 	
-	@NotNull
-	private UserDTO professional;
 	
 }
