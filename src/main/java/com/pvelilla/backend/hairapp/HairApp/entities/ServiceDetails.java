@@ -56,4 +56,8 @@ public class ServiceDetails {
 	@JoinColumn(name = "profesional")
 	private User professional;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "direccion")
+	private Adress adress;
+	
 }
