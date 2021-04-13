@@ -62,4 +62,16 @@ public class ServiceDetailsController {
 		return serviceDetailsService.findAll(serviceParam);
 	}
 	
+	@CrossOrigin
+	@GetMapping(value = "/client")
+	public List<ServiceDetailsDTO> findALlRecordsByClient(@RequestParam(name = "clientParam") Optional<Long> clientParam) {
+		return serviceDetailsService.findAllByClient(clientParam);
+	}
+	
+	@CrossOrigin
+	@GetMapping(value = "/professional")
+	public List<ServiceDetailsDTO> findALlRecordsByProfessional(@RequestParam(name = "professionalParam") Optional<Long> professionalParam) {
+		return serviceDetailsService.findAllByProfessional(professionalParam);
+	}
+	
 }

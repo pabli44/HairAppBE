@@ -24,7 +24,7 @@ public class ServiceDetailsDTO {
 	private ServiceEDTO service;
 	
 	@NotNull
-	private UserDTO user;
+	private UserDTO client;
 	
 	@NotNull
 	private Double value;
@@ -37,5 +37,14 @@ public class ServiceDetailsDTO {
 	
 	@NotNull
 	private TransactionEDTO transaction;
+	
+	@NotNull
+	private Long quantity;
+	
+	@NotNull
+	private UserDTO professional;
+	
+	@NotNull
+	private AdressDTO adress;
 	
 }

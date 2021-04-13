@@ -12,6 +12,7 @@ import com.pvelilla.backend.hairapp.HairApp.config.dozer.DozerMappingBuilder;
 import com.pvelilla.backend.hairapp.HairApp.config.specification.SpecificationBuilder;
 import com.pvelilla.backend.hairapp.HairApp.domain.ServiceEDTO;
 import com.pvelilla.backend.hairapp.HairApp.entities.ServiceE;
+import com.pvelilla.backend.hairapp.HairApp.entities.TypeService;
 import com.pvelilla.backend.hairapp.HairApp.exceptions.RecordNotFoundException;
 import com.pvelilla.backend.hairapp.HairApp.repository.ServiceRepository;
 import com.pvelilla.backend.hairapp.HairApp.service.ServiceService;
@@ -29,11 +30,11 @@ public class ServiceServiceImpl implements ServiceService{
 	
 	
 	@Override
-	public List<ServiceEDTO> findAll(Optional<String> serviceNameParam) {
+	public List<ServiceEDTO> findAll(Optional<Long> typeServiceParam) {
 		Map<String, Object> paramSpec = new HashMap<>();
-		serviceNameParam.ifPresent(mapper -> paramSpec.put("serviceNameParam", serviceNameParam.get()));
+		typeServiceParam.ifPresent(mapper -> paramSpec.put("typeServiceParam", typeServiceParam.get()));
 		return serviceRepository
-				.findAll(new SpecificationBuilder<ServiceE>(paramSpec).conjunctionLike("[serviceName]", "serviceNameParam").build())
+				.findAll(new SpecificationBuilder<ServiceE>(paramSpec).conjunctionEquals("[typeService][typeServiceId]", "typeServiceParam").build())
 				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, ServiceEDTO.class))
 				.collect(Collectors.toList());
 	}

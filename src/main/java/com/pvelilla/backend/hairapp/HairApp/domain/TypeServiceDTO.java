@@ -14,14 +14,14 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ServiceEDTO {
+public class TypeServiceDTO {
 	
-	private Long serviceId;
-	
-	@NotNull
-	private TypeServiceDTO typeService;
+	private Long typeServiceId;
 	
 	@NotBlank
-	private String state;
+	private String serviceName;
+	
+	@NotNull
+	private Long price;
 
 }
