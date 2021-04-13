@@ -44,4 +44,7 @@ public class ServiceDetailsDTO {
 	@NotNull
 	private UserDTO professional;
 	
+	@NotNull
+	private AdressDTO adress;
+	
 }
