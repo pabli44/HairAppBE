@@ -6,10 +6,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.pvelilla.backend.hairapp.HairApp.config.dozer.DozerMappingBuilder;
-import com.pvelilla.backend.hairapp.HairApp.config.specification.SpecificationBuilder;
 import com.pvelilla.backend.hairapp.HairApp.domain.ServiceDetailsDTO;
 import com.pvelilla.backend.hairapp.HairApp.entities.ServiceDetails;
 import com.pvelilla.backend.hairapp.HairApp.exceptions.RecordNotFoundException;
@@ -33,9 +32,8 @@ public class ServiceDetailsServiceImpl implements ServiceDetailsService{
 		Map<String, Object> paramSpec = new HashMap<>();
 		serviceParam.ifPresent(mapper -> paramSpec.put("serviceParam", serviceParam.get()));
 		return serviceDetailsRepository
-				.findAll(new SpecificationBuilder<ServiceDetails>(paramSpec).conjunctionEquals("[service][serviceId]", "serviceParam")
-				.build())
-				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, ServiceDetailsDTO.class))
+				.findAll()
+				.stream().map(mapper -> new ModelMapper().map(mapper, ServiceDetailsDTO.class))
 				.collect(Collectors.toList());
 		
 	}
@@ -45,9 +43,8 @@ public class ServiceDetailsServiceImpl implements ServiceDetailsService{
 		Map<String, Object> paramSpec = new HashMap<>();
 		clientParam.ifPresent(mapper -> paramSpec.put("clientParam", clientParam.get()));
 		return serviceDetailsRepository
-				.findAll(new SpecificationBuilder<ServiceDetails>(paramSpec).conjunctionEquals("[client][userId]", "clientParam")
-				.build())
-				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, ServiceDetailsDTO.class))
+				.findAll()
+				.stream().map(mapper -> new ModelMapper().map(mapper, ServiceDetailsDTO.class))
 				.collect(Collectors.toList());
 		
 	}
@@ -57,9 +54,8 @@ public class ServiceDetailsServiceImpl implements ServiceDetailsService{
 		Map<String, Object> paramSpec = new HashMap<>();
 		professionalParam.ifPresent(mapper -> paramSpec.put("professionalParam", professionalParam.get()));
 		return serviceDetailsRepository
-				.findAll(new SpecificationBuilder<ServiceDetails>(paramSpec).conjunctionEquals("[professional][userId]", "professionalParam")
-				.build())
-				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, ServiceDetailsDTO.class))
+				.findAll()
+				.stream().map(mapper -> new ModelMapper().map(mapper, ServiceDetailsDTO.class))
 				.collect(Collectors.toList());
 		
 	}
@@ -67,13 +63,13 @@ public class ServiceDetailsServiceImpl implements ServiceDetailsService{
 	@Override
 	public ServiceDetailsDTO findById(Long serviceDetailsId) {
 		return serviceDetailsRepository.findById(serviceDetailsId)
-				.map(mapper -> new DozerMappingBuilder().map(mapper, ServiceDetailsDTO.class))
+				.map(mapper -> new ModelMapper().map(mapper, ServiceDetailsDTO.class))
 				.orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, serviceDetailsId));
 	}
 
 	@Override
 	public Long save(ServiceDetailsDTO serviceDetailsDTO) {
-		ServiceDetails serviceDetails = new DozerMappingBuilder().map(serviceDetailsDTO, ServiceDetails.class);
+		ServiceDetails serviceDetails = new ModelMapper().map(serviceDetailsDTO, ServiceDetails.class);
 		serviceDetailsRepository.save(serviceDetails);
 		return serviceDetails.getServiceDetailsId();
 	}
@@ -81,10 +77,10 @@ public class ServiceDetailsServiceImpl implements ServiceDetailsService{
 	@Override
 	public ServiceDetailsDTO update(Long serviceDetailsId, ServiceDetailsDTO serviceDetailsDTO) {
 		return serviceDetailsRepository.findById(serviceDetailsId).map(mapper -> {
-			ServiceDetails serviceDetails = new DozerMappingBuilder().map(serviceDetailsDTO, ServiceDetails.class);
+			ServiceDetails serviceDetails = new ModelMapper().map(serviceDetailsDTO, ServiceDetails.class);
 			serviceDetails.setServiceDetailsId(serviceDetailsId);
 			serviceDetailsRepository.save(serviceDetails);
-			return new DozerMappingBuilder().map(serviceDetails, ServiceDetailsDTO.class);
+			return new ModelMapper().map(serviceDetails, ServiceDetailsDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, serviceDetailsId));
 	}
 
@@ -92,7 +88,7 @@ public class ServiceDetailsServiceImpl implements ServiceDetailsService{
 	public ServiceDetailsDTO deleteById(Long serviceDetailsId) {
 		return serviceDetailsRepository.findById(serviceDetailsId).map(mapper -> {
 			serviceDetailsRepository.delete(mapper);
-			return new DozerMappingBuilder().map(mapper, ServiceDetailsDTO.class);
+			return new ModelMapper().map(mapper, ServiceDetailsDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, serviceDetailsId));
 	}
 	

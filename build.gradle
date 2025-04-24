@@ -1,13 +1,18 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.7.RELEASE'
+	id 'org.springframework.boot' version '3.2.5'
 	id 'java'
+}
+
+repositories {
+	mavenCentral()
 }
 
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.pvelilla.backend.hairapp'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = JavaVersion.VERSION_17
+
 
 configurations {
 	compileOnly {
@@ -20,13 +25,18 @@ repositories {
 }
 
 dependencies {
-	compile group: 'net.sf.dozer', name: 'dozer-spring', version: '5.5.1'
-	compile group: 'io.craftsman', name: 'dozer-jdk8-support', version: '1.0.6'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
 	implementation 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'mysql:mysql-connector-java'
+	implementation 'org.hibernate.validator:hibernate-validator:8.0.2.Final'
+	implementation 'org.modelmapper:modelmapper:3.2.0'
+	implementation 'mysql:mysql-connector-java:8.0.33'
+
+	compileOnly 'org.projectlombok:lombok'
+
 	annotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.0-M1' // Última versión estable a hoy
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.0-M1'
 }

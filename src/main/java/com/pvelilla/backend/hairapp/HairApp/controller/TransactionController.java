@@ -3,8 +3,8 @@ package com.pvelilla.backend.hairapp.HairApp.controller;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pvelilla.backend.hairapp.HairApp.domain.ResponseMapDTO;
 import com.pvelilla.backend.hairapp.HairApp.domain.TransactionEDTO;
-import com.pvelilla.backend.hairapp.HairApp.domain.UserDTO;
 import com.pvelilla.backend.hairapp.HairApp.service.TransactionService;
-import com.pvelilla.backend.hairapp.HairApp.service.UserService;
 
 @RestController
 @RequestMapping("/apiv1/transactions")
