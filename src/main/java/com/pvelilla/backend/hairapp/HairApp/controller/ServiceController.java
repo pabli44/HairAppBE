@@ -40,8 +40,8 @@ public class ServiceController {
 	
 	@CrossOrigin
 	@DeleteMapping(value = "/{serviceId}")
-	public ServiceEDTO deleteById(@PathVariable Long profileId) {
-		return serviceService.deleteById(profileId);
+	public ServiceEDTO deleteById(@PathVariable Long serviceId) {
+		return serviceService.deleteById(serviceId);
 	}
 
 	@CrossOrigin

@@ -18,12 +18,14 @@ import com.pvelilla.backend.hairapp.HairApp.service.AddressService;
 @Service
 public class AddressServiceImpl implements AddressService {
 
-	private AddressRepository addressRepository;
+	private final AddressRepository addressRepository;
+	private final ModelMapper modelMapper;
 	private static final String NAME_DOMAIN = "Address";
 	
 	
-	public AddressServiceImpl(final AddressRepository addressRepository) {
+	public AddressServiceImpl(final AddressRepository addressRepository, final ModelMapper modelMapper) {
 		this.addressRepository = addressRepository;
+		this.modelMapper = modelMapper;
 	}
 	
 	
@@ -32,20 +34,20 @@ public class AddressServiceImpl implements AddressService {
 		Map<String, Object> paramSpec = new HashMap<>();
 		userParam.ifPresent(mapper -> paramSpec.put("userParam", userParam.get()));
 
-		return addressRepository.findAll().stream().map(mapper -> new ModelMapper().map(mapper, AddressDTO.class))
+		return addressRepository.findAll().stream().map(mapper -> modelMapper.map(mapper, AddressDTO.class))
 				.collect(Collectors.toList());
 	}
 	
 	@Override
 	public AddressDTO findById(Long addressId) {
 		return addressRepository.findById(addressId)
-				.map(mapper -> new ModelMapper().map(mapper, AddressDTO.class))
+				.map(mapper -> modelMapper.map(mapper, AddressDTO.class))
 				.orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, addressId));
 	}
 
 	@Override
 	public Long save(AddressDTO addressDTO) {
-		Address address = new ModelMapper().map(addressDTO, Address.class);
+		Address address = modelMapper.map(addressDTO, Address.class);
 		addressRepository.save(address);
 		return address.getAddressId();
 	}
@@ -53,10 +55,10 @@ public class AddressServiceImpl implements AddressService {
 	@Override
 	public AddressDTO update(Long addressId, AddressDTO addressDTO) {
 		return addressRepository.findById(addressId).map(mapper -> {
-			Address address = new ModelMapper().map(addressDTO, Address.class);
+			Address address = modelMapper.map(addressDTO, Address.class);
 			address.setAddressId(addressId);
 			addressRepository.save(address);
-			return new ModelMapper().map(address, AddressDTO.class);
+			return modelMapper.map(address, AddressDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, addressId));
 	}
 
@@ -64,7 +66,7 @@ public class AddressServiceImpl implements AddressService {
 	public AddressDTO deleteById(Long addressId) {
 		return addressRepository.findById(addressId).map(mapper -> {
 			addressRepository.delete(mapper);
-			return new ModelMapper().map(mapper, AddressDTO.class);
+			return modelMapper.map(mapper, AddressDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, addressId));
 	}
 

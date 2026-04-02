@@ -18,12 +18,14 @@ import com.pvelilla.backend.hairapp.HairApp.service.TransactionService;
 @Service
 public class TransactionServiceImpl implements TransactionService{
 	
-	private TransactionRepository transactionRepository;
+	private final TransactionRepository transactionRepository;
+	private final ModelMapper modelMapper;
 	private static final String NAME_DOMAIN = "Transaction";
 	
 	
-	public TransactionServiceImpl(final TransactionRepository transactionRepository) {
+	public TransactionServiceImpl(final TransactionRepository transactionRepository, final ModelMapper modelMapper) {
 		this.transactionRepository = transactionRepository;
+		this.modelMapper = modelMapper;
 	}
 	
 	
@@ -33,20 +35,20 @@ public class TransactionServiceImpl implements TransactionService{
 		typeTransactionParam.ifPresent(mapper -> paramSpec.put("typeTransactionParam", typeTransactionParam.get()));
 		return transactionRepository
 				.findAll()
-				.stream().map(mapper -> new ModelMapper().map(mapper, TransactionEDTO.class))
+				.stream().map(mapper -> modelMapper.map(mapper, TransactionEDTO.class))
 				.collect(Collectors.toList());
 	}
 	
 	@Override
 	public TransactionEDTO findById(Long transactionId) {
 		return transactionRepository.findById(transactionId)
-				.map(mapper -> new ModelMapper().map(mapper, TransactionEDTO.class))
+				.map(mapper -> modelMapper.map(mapper, TransactionEDTO.class))
 				.orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, transactionId));
 	}
 
 	@Override
 	public Long save(TransactionEDTO transactionDTO) {
-		TransactionE transaction = new ModelMapper().map(transactionDTO, TransactionE.class);
+		TransactionE transaction = modelMapper.map(transactionDTO, TransactionE.class);
 		transactionRepository.save(transaction);
 		return transaction.getTransactionId();
 	}
@@ -54,10 +56,10 @@ public class TransactionServiceImpl implements TransactionService{
 	@Override
 	public TransactionEDTO update(Long transactionId, TransactionEDTO transactionDTO) {
 		return transactionRepository.findById(transactionId).map(mapper -> {
-			TransactionE transaction = new ModelMapper().map(transactionDTO, TransactionE.class);
+			TransactionE transaction = modelMapper.map(transactionDTO, TransactionE.class);
 			transaction.setTransactionId(transactionId);
 			transactionRepository.save(transaction);
-			return new ModelMapper().map(transaction, TransactionEDTO.class);
+			return modelMapper.map(transaction, TransactionEDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, transactionId));
 	}
 
@@ -65,7 +67,7 @@ public class TransactionServiceImpl implements TransactionService{
 	public TransactionEDTO deleteById(Long transactionId) {
 		return transactionRepository.findById(transactionId).map(mapper -> {
 			transactionRepository.delete(mapper);
-			return new ModelMapper().map(mapper, TransactionEDTO.class);
+			return modelMapper.map(mapper, TransactionEDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, transactionId));
 	}
 	
