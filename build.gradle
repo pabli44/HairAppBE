@@ -1,6 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '3.2.5'
 	id 'java'
+	id 'jacoco'
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -33,6 +34,19 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.0-M1'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.0-M1'
+	testImplementation 'com.h2database:h2'
+}
+
+test {
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = true
+		csv.required = false
+		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+	}
 }

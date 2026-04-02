@@ -18,12 +18,14 @@ import com.pvelilla.backend.hairapp.HairApp.service.ServiceService;
 @Service
 public class ServiceServiceImpl implements ServiceService{
 
-	private ServiceRepository serviceRepository;
+	private final ServiceRepository serviceRepository;
+	private final ModelMapper modelMapper;
 	private static final String NAME_DOMAIN = "Service";
 	
 	
-	public ServiceServiceImpl(final ServiceRepository serviceRepository) {
+	public ServiceServiceImpl(final ServiceRepository serviceRepository, final ModelMapper modelMapper) {
 		this.serviceRepository = serviceRepository;
+		this.modelMapper = modelMapper;
 	}
 	
 	
@@ -33,20 +35,20 @@ public class ServiceServiceImpl implements ServiceService{
 		typeServiceParam.ifPresent(mapper -> paramSpec.put("typeServiceParam", typeServiceParam.get()));
 		return serviceRepository
 				.findAll()
-				.stream().map(mapper -> new ModelMapper().map(mapper, ServiceEDTO.class))
+				.stream().map(mapper -> modelMapper.map(mapper, ServiceEDTO.class))
 				.collect(Collectors.toList());
 	}
 	
 	@Override
 	public ServiceEDTO findById(Long serviceId) {
 		return serviceRepository.findById(serviceId)
-				.map(mapper -> new ModelMapper().map(mapper, ServiceEDTO.class))
+				.map(mapper -> modelMapper.map(mapper, ServiceEDTO.class))
 				.orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, serviceId));
 	}
 
 	@Override
 	public Long save(ServiceEDTO serviceDTO) {
-		ServiceE serviceE = new ModelMapper().map(serviceDTO, ServiceE.class);
+		ServiceE serviceE = modelMapper.map(serviceDTO, ServiceE.class);
 		serviceRepository.save(serviceE);
 		return serviceE.getServiceId();
 	}
@@ -54,10 +56,10 @@ public class ServiceServiceImpl implements ServiceService{
 	@Override
 	public ServiceEDTO update(Long serviceId, ServiceEDTO serviceDTO) {
 		return serviceRepository.findById(serviceId).map(mapper -> {
-			ServiceE serviceE = new ModelMapper().map(serviceDTO, ServiceE.class);
+			ServiceE serviceE = modelMapper.map(serviceDTO, ServiceE.class);
 			serviceE.setServiceId(serviceId);
 			serviceRepository.save(serviceE);
-			return new ModelMapper().map(serviceE, ServiceEDTO.class);
+			return modelMapper.map(serviceE, ServiceEDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, serviceId));
 	}
 
@@ -65,7 +67,7 @@ public class ServiceServiceImpl implements ServiceService{
 	public ServiceEDTO deleteById(Long serviceId) {
 		return serviceRepository.findById(serviceId).map(mapper -> {
 			serviceRepository.delete(mapper);
-			return new ModelMapper().map(mapper, ServiceEDTO.class);
+			return modelMapper.map(mapper, ServiceEDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, serviceId));
 	}
 	
