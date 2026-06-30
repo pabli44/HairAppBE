@@ -43,7 +43,6 @@ class ServiceDetailsControllerTest {
         serviceDetailsDTO.setValue(100.0);
         serviceDetailsDTO.setDate(new java.util.Date());
         serviceDetailsDTO.setHour("10:00");
-        serviceDetailsDTO.setTransaction(new TransactionEDTO());
         serviceDetailsDTO.setQuantity(1L);
         serviceDetailsDTO.setProfessional(new UserDTO());
         serviceDetailsDTO.setAddress(new AddressDTO());

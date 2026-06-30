@@ -19,7 +19,7 @@ public class ServiceE {
 	private Long serviceId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "tipo_servicio")
+	@JoinColumn(name = "tipo_servicio", referencedColumnName = "id")
 	private TypeService typeService;
 	
 	@Column(name = "estado")

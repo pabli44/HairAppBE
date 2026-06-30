@@ -17,9 +17,9 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "perfil")
+	@JoinColumn(name = "perfil", referencedColumnName = "id")
 	private Profile profile;
 	
 	@Column(name = "nombres")
