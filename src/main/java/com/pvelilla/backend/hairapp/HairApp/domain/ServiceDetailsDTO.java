@@ -36,9 +36,6 @@ public class ServiceDetailsDTO {
 	private String hour;
 	
 	@NotNull
-	private TransactionEDTO transaction;
-	
-	@NotNull
 	private Long quantity;
 	
 	@NotNull
@@ -46,5 +43,7 @@ public class ServiceDetailsDTO {
 	
 	@NotNull
 	private AddressDTO address;
+	
+	private String paid;
 	
 }
