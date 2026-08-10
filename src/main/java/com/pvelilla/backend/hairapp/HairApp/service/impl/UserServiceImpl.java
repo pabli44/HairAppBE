@@ -6,10 +6,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.pvelilla.backend.hairapp.HairApp.config.dozer.DozerMappingBuilder;
-import com.pvelilla.backend.hairapp.HairApp.config.specification.SpecificationBuilder;
 import com.pvelilla.backend.hairapp.HairApp.domain.UserDTO;
 import com.pvelilla.backend.hairapp.HairApp.entities.User;
 import com.pvelilla.backend.hairapp.HairApp.exceptions.RecordNotFoundException;
@@ -19,12 +18,14 @@ import com.pvelilla.backend.hairapp.HairApp.service.UserService;
 @Service
 public class UserServiceImpl implements UserService{
 	
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
+	private final ModelMapper modelMapper;
 	private static final String NAME_DOMAIN = "User";
 	
 	
-	public UserServiceImpl(final UserRepository userRepository) {
+	public UserServiceImpl(final UserRepository userRepository, final ModelMapper modelMapper) {
 		this.userRepository = userRepository;
+		this.modelMapper = modelMapper;
 	}
 	
 	
@@ -33,21 +34,21 @@ public class UserServiceImpl implements UserService{
 		Map<String, Object> paramSpec = new HashMap<>();
 		emailParam.ifPresent(mapper -> paramSpec.put("emailParam", emailParam.get()));
 		return userRepository
-				.findAll(new SpecificationBuilder<User>(paramSpec).conjunctionEquals("[email]", "emailParam").build())
-				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, UserDTO.class))
+				.findAll()
+				.stream().map(mapper -> modelMapper.map(mapper, UserDTO.class))
 				.collect(Collectors.toList());
 	}
 	
 	@Override
 	public UserDTO findById(Long userId) {
 		return userRepository.findById(userId)
-				.map(mapper -> new DozerMappingBuilder().map(mapper, UserDTO.class))
+				.map(mapper -> modelMapper.map(mapper, UserDTO.class))
 				.orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, userId));
 	}
 
 	@Override
 	public Long save(UserDTO userDTO) {
-		User user = new DozerMappingBuilder().map(userDTO, User.class);
+		User user = modelMapper.map(userDTO, User.class);
 		userRepository.save(user);
 		return user.getUserId();
 	}
@@ -55,10 +56,10 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserDTO update(Long userId, UserDTO userDTO) {
 		return userRepository.findById(userId).map(mapper -> {
-			User user = new DozerMappingBuilder().map(userDTO, User.class);
+			User user = modelMapper.map(userDTO, User.class);
 			user.setUserId(userId);
 			userRepository.save(user);
-			return new DozerMappingBuilder().map(user, UserDTO.class);
+			return modelMapper.map(user, UserDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, userId));
 	}
 
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService{
 	public UserDTO deleteById(Long userId) {
 		return userRepository.findById(userId).map(mapper -> {
 			userRepository.delete(mapper);
-			return new DozerMappingBuilder().map(mapper, UserDTO.class);
+			return modelMapper.map(mapper, UserDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, userId));
 	}
 	

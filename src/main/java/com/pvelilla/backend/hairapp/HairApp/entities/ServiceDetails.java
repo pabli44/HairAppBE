@@ -2,16 +2,8 @@ package com.pvelilla.backend.hairapp.HairApp.entities;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,7 +21,7 @@ public class ServiceDetails {
 	private Long serviceDetailsId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "servicio")
+	@JoinColumn(name = "servicio", referencedColumnName = "id")
 	private ServiceE service;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -45,10 +37,6 @@ public class ServiceDetails {
 	@Column(name = "hora")
 	private String hour;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "transaccion")
-	private TransactionE transaction;
-	
 	@Column(name = "cantidad")
 	private Long quantity;
 	
@@ -58,6 +46,9 @@ public class ServiceDetails {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "direccion")
-	private Adress adress;
+	private Address address;
+	
+	@Column(name = "pagado")
+	private String paid;
 	
 }

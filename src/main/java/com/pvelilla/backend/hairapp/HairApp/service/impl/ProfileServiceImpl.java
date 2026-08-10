@@ -6,10 +6,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.pvelilla.backend.hairapp.HairApp.config.dozer.DozerMappingBuilder;
-import com.pvelilla.backend.hairapp.HairApp.config.specification.SpecificationBuilder;
 import com.pvelilla.backend.hairapp.HairApp.domain.ProfileDTO;
 import com.pvelilla.backend.hairapp.HairApp.entities.Profile;
 import com.pvelilla.backend.hairapp.HairApp.exceptions.RecordNotFoundException;
@@ -19,12 +18,14 @@ import com.pvelilla.backend.hairapp.HairApp.service.ProfileService;
 @Service
 public class ProfileServiceImpl implements ProfileService{
 
-	private ProfileRepository profileRepository;
+	private final ProfileRepository profileRepository;
+	private final ModelMapper modelMapper;
 	private static final String NAME_DOMAIN = "Profile";
 	
 	
-	public ProfileServiceImpl(final ProfileRepository profileRepository) {
+	public ProfileServiceImpl(final ProfileRepository profileRepository, final ModelMapper modelMapper) {
 		this.profileRepository = profileRepository;
+		this.modelMapper = modelMapper;
 	}
 	
 	
@@ -33,21 +34,21 @@ public class ProfileServiceImpl implements ProfileService{
 		Map<String, Object> paramSpec = new HashMap<>();
 		profileNameParam.ifPresent(mapper -> paramSpec.put("profileNameParam", profileNameParam.get()));
 		return profileRepository
-				.findAll(new SpecificationBuilder<Profile>(paramSpec).conjunctionEquals("[profileName]", "profileNameParam").build())
-				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, ProfileDTO.class))
+				.findAll()
+				.stream().map(mapper -> modelMapper.map(mapper, ProfileDTO.class))
 				.collect(Collectors.toList());
 	}
 	
 	@Override
 	public ProfileDTO findById(Long profileId) {
 		return profileRepository.findById(profileId)
-				.map(mapper -> new DozerMappingBuilder().map(mapper, ProfileDTO.class))
+				.map(mapper -> modelMapper.map(mapper, ProfileDTO.class))
 				.orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, profileId));
 	}
 
 	@Override
 	public Long save(ProfileDTO profileDTO) {
-		Profile profile = new DozerMappingBuilder().map(profileDTO, Profile.class);
+		Profile profile = modelMapper.map(profileDTO, Profile.class);
 		profileRepository.save(profile);
 		return profile.getProfileId();
 	}
@@ -55,10 +56,10 @@ public class ProfileServiceImpl implements ProfileService{
 	@Override
 	public ProfileDTO update(Long profileId, ProfileDTO profileDTO) {
 		return profileRepository.findById(profileId).map(mapper -> {
-			Profile profile = new DozerMappingBuilder().map(profileDTO, Profile.class);
+			Profile profile = modelMapper.map(profileDTO, Profile.class);
 			profile.setProfileId(profileId);
 			profileRepository.save(profile);
-			return new DozerMappingBuilder().map(profile, ProfileDTO.class);
+			return modelMapper.map(profile, ProfileDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, profileId));
 	}
 
@@ -66,7 +67,7 @@ public class ProfileServiceImpl implements ProfileService{
 	public ProfileDTO deleteById(Long profileId) {
 		return profileRepository.findById(profileId).map(mapper -> {
 			profileRepository.delete(mapper);
-			return new DozerMappingBuilder().map(mapper, ProfileDTO.class);
+			return modelMapper.map(mapper, ProfileDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, profileId));
 	}
 	

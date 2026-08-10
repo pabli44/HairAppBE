@@ -6,13 +6,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.pvelilla.backend.hairapp.HairApp.config.dozer.DozerMappingBuilder;
-import com.pvelilla.backend.hairapp.HairApp.config.specification.SpecificationBuilder;
 import com.pvelilla.backend.hairapp.HairApp.domain.ServiceEDTO;
 import com.pvelilla.backend.hairapp.HairApp.entities.ServiceE;
-import com.pvelilla.backend.hairapp.HairApp.entities.TypeService;
 import com.pvelilla.backend.hairapp.HairApp.exceptions.RecordNotFoundException;
 import com.pvelilla.backend.hairapp.HairApp.repository.ServiceRepository;
 import com.pvelilla.backend.hairapp.HairApp.service.ServiceService;
@@ -20,12 +18,14 @@ import com.pvelilla.backend.hairapp.HairApp.service.ServiceService;
 @Service
 public class ServiceServiceImpl implements ServiceService{
 
-	private ServiceRepository serviceRepository;
+	private final ServiceRepository serviceRepository;
+	private final ModelMapper modelMapper;
 	private static final String NAME_DOMAIN = "Service";
 	
 	
-	public ServiceServiceImpl(final ServiceRepository serviceRepository) {
+	public ServiceServiceImpl(final ServiceRepository serviceRepository, final ModelMapper modelMapper) {
 		this.serviceRepository = serviceRepository;
+		this.modelMapper = modelMapper;
 	}
 	
 	
@@ -34,21 +34,21 @@ public class ServiceServiceImpl implements ServiceService{
 		Map<String, Object> paramSpec = new HashMap<>();
 		typeServiceParam.ifPresent(mapper -> paramSpec.put("typeServiceParam", typeServiceParam.get()));
 		return serviceRepository
-				.findAll(new SpecificationBuilder<ServiceE>(paramSpec).conjunctionEquals("[typeService][typeServiceId]", "typeServiceParam").build())
-				.stream().map(mapper -> new DozerMappingBuilder().map(mapper, ServiceEDTO.class))
+				.findAll()
+				.stream().map(mapper -> modelMapper.map(mapper, ServiceEDTO.class))
 				.collect(Collectors.toList());
 	}
 	
 	@Override
 	public ServiceEDTO findById(Long serviceId) {
 		return serviceRepository.findById(serviceId)
-				.map(mapper -> new DozerMappingBuilder().map(mapper, ServiceEDTO.class))
+				.map(mapper -> modelMapper.map(mapper, ServiceEDTO.class))
 				.orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, serviceId));
 	}
 
 	@Override
 	public Long save(ServiceEDTO serviceDTO) {
-		ServiceE serviceE = new DozerMappingBuilder().map(serviceDTO, ServiceE.class);
+		ServiceE serviceE = modelMapper.map(serviceDTO, ServiceE.class);
 		serviceRepository.save(serviceE);
 		return serviceE.getServiceId();
 	}
@@ -56,10 +56,10 @@ public class ServiceServiceImpl implements ServiceService{
 	@Override
 	public ServiceEDTO update(Long serviceId, ServiceEDTO serviceDTO) {
 		return serviceRepository.findById(serviceId).map(mapper -> {
-			ServiceE serviceE = new DozerMappingBuilder().map(serviceDTO, ServiceE.class);
+			ServiceE serviceE = modelMapper.map(serviceDTO, ServiceE.class);
 			serviceE.setServiceId(serviceId);
 			serviceRepository.save(serviceE);
-			return new DozerMappingBuilder().map(serviceE, ServiceEDTO.class);
+			return modelMapper.map(serviceE, ServiceEDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, serviceId));
 	}
 
@@ -67,7 +67,7 @@ public class ServiceServiceImpl implements ServiceService{
 	public ServiceEDTO deleteById(Long serviceId) {
 		return serviceRepository.findById(serviceId).map(mapper -> {
 			serviceRepository.delete(mapper);
-			return new DozerMappingBuilder().map(mapper, ServiceEDTO.class);
+			return modelMapper.map(mapper, ServiceEDTO.class);
 		}).orElseThrow(() -> new RecordNotFoundException(NAME_DOMAIN, serviceId));
 	}
 	
