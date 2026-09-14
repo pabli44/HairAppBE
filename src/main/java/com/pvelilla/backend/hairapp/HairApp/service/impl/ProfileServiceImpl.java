@@ -1,12 +1,11 @@
 package com.pvelilla.backend.hairapp.HairApp.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.pvelilla.backend.hairapp.HairApp.domain.ProfileDTO;
@@ -31,12 +30,21 @@ public class ProfileServiceImpl implements ProfileService{
 	
 	@Override
 	public List<ProfileDTO> findAll(Optional<String> profileNameParam) {
-		Map<String, Object> paramSpec = new HashMap<>();
-		profileNameParam.ifPresent(mapper -> paramSpec.put("profileNameParam", profileNameParam.get()));
+		if (profileNameParam.isPresent()) {
+			return profileRepository
+					.findAll(byProfileName(profileNameParam.get()))
+					.stream().map(mapper -> modelMapper.map(mapper, ProfileDTO.class))
+					.collect(Collectors.toList());
+		}
 		return profileRepository
 				.findAll()
 				.stream().map(mapper -> modelMapper.map(mapper, ProfileDTO.class))
 				.collect(Collectors.toList());
+	}
+
+	private Specification<Profile> byProfileName(String profileName) {
+		return (root, query, criteriaBuilder) ->
+				criteriaBuilder.equal(criteriaBuilder.lower(root.get("profileName")), profileName.toLowerCase());
 	}
 	
 	@Override
