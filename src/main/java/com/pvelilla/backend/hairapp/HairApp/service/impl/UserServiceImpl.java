@@ -1,12 +1,11 @@
 package com.pvelilla.backend.hairapp.HairApp.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.pvelilla.backend.hairapp.HairApp.domain.UserDTO;
@@ -31,12 +30,21 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public List<UserDTO> findAll(Optional<String> emailParam) {
-		Map<String, Object> paramSpec = new HashMap<>();
-		emailParam.ifPresent(mapper -> paramSpec.put("emailParam", emailParam.get()));
+		if (emailParam.isPresent()) {
+			return userRepository
+					.findAll(byEmail(emailParam.get()))
+					.stream().map(mapper -> modelMapper.map(mapper, UserDTO.class))
+					.collect(Collectors.toList());
+		}
 		return userRepository
 				.findAll()
 				.stream().map(mapper -> modelMapper.map(mapper, UserDTO.class))
 				.collect(Collectors.toList());
+	}
+
+	private Specification<User> byEmail(String email) {
+		return (root, query, criteriaBuilder) ->
+				criteriaBuilder.equal(criteriaBuilder.lower(root.get("email")), email.toLowerCase());
 	}
 	
 	@Override
